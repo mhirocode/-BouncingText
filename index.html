@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moving Text</title>
+<style>
+  body {
+    background-color: #f0f0f0;
+    margin: 0;
+    overflow: hidden;
+  }
+  .bouncing-text {
+    position: absolute;
+    font-size: 2em;
+    font-weight: bold;
+    color: #333;
+    animation: bounce 5s linear infinite; /* アニメーションの基本設定 */
+  }
+</style>
+</head>
+<body>
+
+<script>
+  // 文字列の配列
+  const texts = [
+  "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω",
+  "∀", "∃", "∈", "∉", "⊂", "⊃", "⊆", "⊇", "∪", "∩", "×", "≠", "≡", "≈", "≅", "⊥", "∥",
+  "∑", "∫", "∂", "∇", "∞", "√", "∛", "∜", "sin", "cos", "tan", "lim", "→",
+  "∧", "∨", "¬", "⇒", "⇔", "∴", "∵", "⇒", "⇔", "¬",
+  "ℝ", "ℂ", "ℤ", "ℚ", "ℕ",
+  "f(x)", "g(x)", "h(x)", "x²", "y³", "zⁿ","^",
+  "+", "-", "×", "÷", "=","=","=","=","=","=","=","=","=","=","=","=","=","=","=","=", "≠", "<", ">", "≤", "≥",
+  "と仮定", "証明", "定義", "定理", "補題", "系", "推論"
+];
+
+  // 画面サイズを取得
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  // テキスト要素を作成し、位置と速度をランダムに設定
+  texts.forEach(text => {
+    const textElement = document.createElement('div');
+    textElement.textContent = text;
+    textElement.classList.add('bouncing-text');
+    document.body.appendChild(textElement);
+
+    // 初期位置をランダムに設定
+    let x = Math.random() * (vw - 100);
+    let y = Math.random() * (vh - 50);
+
+    // 初期速度をランダムに設定（正または負の値を設定）
+    let dx = (Math.random() - 0.5) * 5; 
+    let dy = (Math.random() - 0.5) * 5; 
+
+    // アニメーションループ
+    function animate() {
+      // 次の位置を計算
+      x += dx;
+      y += dy;
+
+      // 画面の端にぶつかったら速度を反転
+      if (x + textElement.clientWidth > vw || x < 0) {
+        dx *= -1;
+      }
+      if (y + textElement.clientHeight > vh || y < 0) {
+        dy *= -1;
+      }
+
+      // 要素のスタイルを更新
+      textElement.style.transform = `translate(${x}px, ${y}px)`;
+
+      // 次のフレームで再度アニメーションを実行
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  });
+</script>
+
+</body>
+</html>
